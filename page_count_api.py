@@ -19,7 +19,7 @@ def enable_cors():
     Don't use the wildcard '*' for Access-Control-Allow-Origin in production.
     """
     response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Methods'] = 'GET'
     response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
 # this method is called when any request is posted to /visitcount URL
@@ -28,8 +28,9 @@ def increment_visit_count():
     printRequestHeaders(request)
     try:
         return dynamodb_client.increment_page_visit_count()
-    except:
-        return "NOK"
+    except Exception as e:
+        print(e)
+    return "NOK"
     
 # this method prints all the headers in the request
 def printRequestHeaders(request):
